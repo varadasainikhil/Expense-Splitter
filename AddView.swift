@@ -12,7 +12,7 @@ struct AddView: View {
     @State private var name = ""
     @State private var type = "Personal"
     @State private var amount = 0.0
-    
+    @State private var isAlertShowing = false
     var expenses : Expenses
     
     let types = ["Business", "Personal"]
@@ -32,22 +32,43 @@ struct AddView: View {
                     .keyboardType(.decimalPad)
             }
             .navigationTitle("Add a new expense")
-            .toolbar{
+            .toolbar {
                 Button("Cancel", role: .cancel){
                     dismiss()
                 }
                 Button("Add"){
-                    let item = ExpenseItem(name: name, type: type, amount: amount)
-                    if item.type == "Personal"{
-                        expenses.personalExpense.append(item)
+                    if name == "" || amount == 0.00{
+                        isAlertShowing.toggle()
                     }
                     else{
-                        expenses.businessExpense.append(item)
+                        let item = ExpenseItem(name: name, type: type, amount: amount)
+                        if item.type == "Personal"{
+                            expenses.personalExpense.append(item)
+                            dismiss()
+                        }
+                        else{
+                            expenses.businessExpense.append(item)
+                            dismiss()
+                        }
                     }
+                }
+            }
+            .alert("Error", isPresented: $isAlertShowing){
+                Button("Ok"){
                     dismiss()
+                }
+            } message: {
+                if name == "" && amount == 0.00{
+                    Text("Please enter the name and the amount.")
+                }else if name == ""{
+                    Text("Please enter Name for the Transaction.")
+                }else{
+                    Text("Please enter amount.")
                 }
             }
         }
+       
+    
     }
 }
 
