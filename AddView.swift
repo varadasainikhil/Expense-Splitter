@@ -63,7 +63,7 @@ struct AddView: View {
                 }else if name == ""{
                     Text("Please enter Name for the Transaction.")
                 }else{
-                    Text("Please enter amount.")
+                    Text("Please enter amount for the Transaction.")
                 }
             }
         }
