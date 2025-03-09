@@ -28,7 +28,7 @@ struct AddView: View {
                 }
                 .pickerStyle(.segmented)
                 
-                TextField("Amount", value: $amount, format: .currency(code: "USD"))
+                TextField("Amount", value: $amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                     .keyboardType(.decimalPad)
             }
             .navigationTitle("Add a new expense")
@@ -55,7 +55,6 @@ struct AddView: View {
             }
             .alert("Error", isPresented: $isAlertShowing){
                 Button("Ok"){
-                    dismiss()
                 }
             } message: {
                 if name == "" && amount == 0.00{
